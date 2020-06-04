@@ -5,27 +5,20 @@ import (
 )
 
 func TestNextToken(t *testing.T) {
-	var tcases = []testCase{
-		testAlgebra,
-		testLogic,
-		testIfElse,
-		testDoubleSymbols,
-	}
-
-	for cidx, cc := range tcases {
+	for name, cc := range lexerTestCases {
 		l := NewLexer(cc.input)
 
 		for i, tt := range cc.expect {
 			tok := l.NextToken()
 
 			if tok.Type != tt.expectedType {
-				t.Fatalf("tests %d [%d] - token Type wrong. expected = %q. got = %q, literal=%s",
-					cidx, i, tt.expectedType, tok.Type, tok.Literal)
+				t.Fatalf("tests %s [%d] - token Type wrong. expected = %q. got = %q, literal=%s",
+					name, i, tt.expectedType, tok.Type, tok.Literal)
 			}
 
 			if tok.Literal != tt.expectedLiteral {
-				t.Fatalf("tests %d [%d] - token Literal wrong. expected = %q. got = %q",
-					cidx, i, tt.expectedLiteral, tok.Literal)
+				t.Fatalf("tests %s [%d] - token Literal wrong. expected = %q. got = %q",
+					name, i, tt.expectedLiteral, tok.Literal)
 			}
 		}
 	}

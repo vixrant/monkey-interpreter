@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 	"mkc/lexer"
-	token "mkc/tokens"
+	token "mkc/token"
 )
 
 const PROMPT = "-> "

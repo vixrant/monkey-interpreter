@@ -1,6 +1,6 @@
 package lexer
 
-import token "mkc/tokens"
+import "mkc/token"
 
 type Lexer struct {
 	input			string
