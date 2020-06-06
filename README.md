@@ -1,4 +1,4 @@
-# 🦍 Monkey Language interpreter
+# 🐒 Monkey Language interpreter
 ##### A programming language from the book "Write an interpreter in Go"
 
 ## Reference
