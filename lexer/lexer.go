@@ -122,11 +122,6 @@ func (l *Lexer) NextToken() token.Token {
 	case '/':
 		tok = newToken(token.SLASH, l.ch)
 
-		if l.peekChar() == '/' {
-			s := l.readString(2)
-			tok = newTokenString(token.DSLASH, s)
-		}
-
 	case '=':
 		tok = newToken(token.ASSIGN, l.ch)
 

@@ -24,7 +24,6 @@ const (
 	PLUS		= "+"
 	MINUS		= "-"
 	SLASH		= "/"
-	DSLASH		= "//"
 	BANG		= "!"
 	ASTRICK		= "*"
 	DASTRICK	= "**"
