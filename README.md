@@ -1,6 +1,18 @@
 # 🐒 Monkey Language interpreter
 ##### A programming language from the book "Write an interpreter in Go"
 
+Still WIP.
+
+## Build
+
+`go build`
+
+## Use
+
+`./mkc` will start the REPL.
+
+`./mkc <filename>` will interpret a file.
+
 ## Features
 - let statements
 - expression evaluation
