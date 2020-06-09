@@ -38,8 +38,8 @@ func (p *Program) String() string {
 // identifier node
 
 type Identifier struct {
-	Token	token.Token
-	Value 	string
+	Token tk.Token
+	Value string
 }
 
 func (i *Identifier) expressionNode() {}
@@ -51,7 +51,7 @@ func (i *Identifier) String() string {
 // let statement node
 
 type LetStatement struct {
-	Token token.Token
+	Token tk.Token
 	Name  *Identifier
 	Value Expression
 }
@@ -75,8 +75,8 @@ func (ls *LetStatement) String() string {
 // return statement
 
 type ReturnStatement struct {
-	Token		token.Token
-	ReturnValue	Expression
+	Token       tk.Token
+	ReturnValue Expression
 }
 
 func (rs *ReturnStatement) statementNode() {}
@@ -96,7 +96,7 @@ func (rs *ReturnStatement) String() string {
 // expression statement
 
 type ExpressionStatement struct {
-	Token token.Token
+	Token      tk.Token
 	Expression Expression
 }
 
@@ -113,7 +113,7 @@ func (es *ExpressionStatement) String() string {
 // interger literal
 
 type IntegerLiteral struct {
-	Token token.Token
+	Token tk.Token
 	Value int64
 }
 func (il *IntegerLiteral) expressionNode() {}
@@ -123,9 +123,9 @@ func (il *IntegerLiteral) String() string { return il.Token.Literal }
 // prefix expression
 
 type PrefixExpression struct {
-	Token		token.Token
-	Operator	string
-	Right		Expression
+	Token    tk.Token
+	Operator string
+	Right    Expression
 }
 
 func (pe *PrefixExpression) expressionNode() {}
@@ -144,10 +144,10 @@ func (pe *PrefixExpression) String() string {
 // infix expression
 
 type InfixExpression struct {
-	Token		token.Token
-	Left		Expression
-	Operator	string
-	Right		Expression
+	Token    tk.Token
+	Left     Expression
+	Operator string
+	Right    Expression
 }
 
 func (ie *InfixExpression) expressionNode() {}
@@ -167,8 +167,8 @@ func (ie *InfixExpression) String() string {
 // boolean
 
 type BooleanLiteral struct {
-	Token 	token.Token
-	Value	bool
+	Token tk.Token
+	Value bool
 }
 
 func (b *BooleanLiteral) expressionNode() {}
@@ -178,7 +178,7 @@ func (b *BooleanLiteral) String() string { return b.TokenLiteral() }
 // block
 
 type BlockStatement struct {
-	Token 		token.Token
+	Token      tk.Token
 	Statements []Statement
 }
 func (bs *BlockStatement) statementNode() {}
@@ -196,10 +196,10 @@ func (bs *BlockStatement) String() string {
 // if
 
 type IfExpression struct {
-	Token		token.Token
-	Condition	Expression
-	Consequence	*BlockStatement
-	Alternative	*BlockStatement
+	Token       tk.Token
+	Condition   Expression
+	Consequence *BlockStatement
+	Alternative *BlockStatement
 }
 
 func (ie *IfExpression) expressionNode() {}
@@ -223,9 +223,9 @@ func (ie *IfExpression) String() string {
 // functions
 
 type FunctionLiteral struct {
-	Token		token.Token
-	Parameters 	[]*Identifier
-	Body		*BlockStatement
+	Token      tk.Token
+	Parameters []*Identifier
+	Body       *BlockStatement
 }
 
 func (fl *FunctionLiteral) expressionNode() {}
@@ -250,9 +250,9 @@ func (fl *FunctionLiteral) String() string {
 // function calls
 
 type CallExpression struct {
-	Token		token.Token
-	Function 	Expression
-	Arguments 	[]Expression
+	Token     tk.Token
+	Function  Expression
+	Arguments []Expression
 }
 
 func (ce *CallExpression) expressionNode() {}

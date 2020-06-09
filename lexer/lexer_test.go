@@ -6,7 +6,7 @@ import (
 
 func TestNextToken(t *testing.T) {
 	for name, cc := range lexerTestCases {
-		l := NewLexer(cc.input)
+		l := New(cc.input)
 
 		for i, tt := range cc.expect {
 			tok := l.NextToken()

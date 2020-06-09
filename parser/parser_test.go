@@ -14,8 +14,8 @@ import (
 ///////////////////////
 
 func getAST(t *testing.T, input string) *ast.Program {
-	l := lexer.NewLexer(input)
-	p := NewParser(l)
+	l := lexer.New(input)
+	p := New(l)
 
 	program := p.ParseProgram()
 
@@ -81,7 +81,7 @@ func assertIntegerLiteral(t *testing.T, exp ast.Expression, value int64) bool {
 		return false
 	}
 
-	if integ.Token.Type != token.INT {
+	if integ.Token.Type != tk.INT {
 		t.Fatalf(
 			"ident.Token is not token.INT, got=%T",
 			integ.Token,
@@ -119,7 +119,7 @@ func assertBooleanLiteral(t *testing.T, exp ast.Expression, value bool) bool {
 		return false
 	}
 
-	if bl.Token.Type != token.TRUE && bl.Token.Type != token.FALSE {
+	if bl.Token.Type != tk.TRUE && bl.Token.Type != tk.FALSE {
 		t.Fatalf("ident.Token is not token.TRUE or token.FALSE, got=%T",
 			bl.Token,
 		)
@@ -153,7 +153,7 @@ func assertIdentifier(t *testing.T, exp ast.Expression, value string) bool {
 		return false
 	}
 
-	if ident.Token.Type != token.IDENTIFIER {
+	if ident.Token.Type != tk.IDENTIFIER {
 		t.Fatalf("ident.Token is not ast.IDENTIFER, got=%T",
 			ident.Token,
 		)
@@ -280,7 +280,7 @@ func TestReturnStatement(t *testing.T) {
 			continue
 		}
 
-		if returnStmt.Token.Type != token.RETURN {
+		if returnStmt.Token.Type != tk.RETURN {
 			t.Fatalf("returnStmt.TokenLiteral not 'return', got %q", returnStmt.TokenLiteral())
 		}
 
@@ -485,6 +485,7 @@ func TestOperatorPrecedenceParsing(t *testing.T) {
 	}{
 		{"-a * b", "((-a) * b)"},
 		{"!-a", "(!(-a))"},
+		{"!+a", "(!(+a))"},
 		{"a+b+c", "((a + b) + c)"},
 		{"a+b-c", "((a + b) - c)"},
 		{"a*b*c", "((a * b) * c)"},

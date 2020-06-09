@@ -1,6 +1,8 @@
-package token
+package tk
 
-// Data structures
+/////////////////////
+// Data structures //
+/////////////////////
 
 type TokenType string
 
@@ -27,6 +29,7 @@ const (
 	BANG		= "!"
 	ASTRICK		= "*"
 	DASTRICK	= "**"
+	MOD			= "%"
 
 	// Relational
 	LT    = "<"

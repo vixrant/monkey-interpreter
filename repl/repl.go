@@ -1,43 +1,47 @@
 package repl
 
 import (
-	"bufio"
-	"fmt"
 	"io"
+	"mkc/eval"
 	"mkc/lexer"
+	obj "mkc/object"
 	"mkc/parser"
 )
 
 const PROMPT = "-> "
 
 func Start(in io.Reader, out io.Writer) {
-	scanner := bufio.NewScanner(in)
+	rio := SetupIO(in, out)
+	env := obj.NewEnvironment()
 
 	for {
-		fmt.Printf(PROMPT)
+		rio.Write(PROMPT)
 
-		scanned := scanner.Scan()
-		if !scanned {
+		line := rio.Read()
+
+		switch line {
+		case "":
+			continue
+		case ".exit":
 			return
 		}
 
-		line := scanner.Text()
-		l := lexer.NewLexer(line)
-		p := parser.NewParser(l)
+		l := lexer.New(line)
+		p := parser.New(l)
 
 		program := p.ParseProgram()
 		if len(p.Errors()) != 0 {
-			printParserErrors(out, p.Errors())
+			rio.Write("Parser errors: \n")
+			for _, msg := range p.Errors() {
+				rio.Write("\t" + msg + "\n")
+			}
 			continue
 		}
-		io.WriteString(out, program.String())
-		io.WriteString(out, "\n")
-	}
-}
 
-func printParserErrors(out io.Writer, errors []string) {
-	fmt.Println("Parser errors:")
-	for _, msg := range errors {
-		io.WriteString(out, "\t"+msg+"\n")
+		evaluated := eval.Eval(program, env)
+		if evaluated != nil {
+			rio.Write(evaluated.Inspect())
+			rio.Write("\n")
+		}
 	}
 }

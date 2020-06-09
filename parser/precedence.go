@@ -11,22 +11,24 @@ const (
 	LESSGREATER // >, <, <=, >=
 	SUM			// + -
 	PRODUCT		// * /
+	MOD			// %
 	POWER		// **
 	PREFIX		// -X or !X
 	CALL		// myFunction(X)
 )
 
-var precedenceTable = map[token.TokenType]pRank{
-	token.EQ: 		EQUALS,
-	token.NOTEQ: 	EQUALS,
-	token.PLUS: 	SUM,
-	token.MINUS: 	SUM,
-	token.ASTRICK: 	PRODUCT,
-	token.SLASH: 	PRODUCT,
-	token.DASTRICK: POWER,
-	token.LT: 		LESSGREATER,
-	token.LTEQ: 	LESSGREATER,
-	token.GT: 		LESSGREATER,
-	token.GTEQ: 	LESSGREATER,
-	token.LPAREN: 	CALL,
+var precedenceTable = map[tk.TokenType]pRank{
+	tk.PLUS:     SUM,
+	tk.MINUS:    SUM,
+	tk.ASTRICK:  PRODUCT,
+	tk.SLASH:    PRODUCT,
+	tk.MOD:    	 MOD,
+	tk.DASTRICK: POWER,
+	tk.EQ:       EQUALS,
+	tk.NOTEQ:    EQUALS,
+	tk.LT:       LESSGREATER,
+	tk.LTEQ:     LESSGREATER,
+	tk.GT:       LESSGREATER,
+	tk.GTEQ:     LESSGREATER,
+	tk.LPAREN:   CALL,
 }

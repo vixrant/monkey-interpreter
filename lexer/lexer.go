@@ -14,7 +14,7 @@ type Lexer struct {
 ////////////////
 
 // Creates a lexer for given input string
-func NewLexer(input string) *Lexer {
+func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
 	return l
@@ -85,13 +85,13 @@ func (l *Lexer) eatWhitespace() {
 ///////////////
 
 // Function to return a new token from a byte
-func newToken(tokenType token.TokenType, ch byte) token.Token {
-	return token.Token{Type: tokenType, Literal: string(ch)}
+func newToken(tokenType tk.TokenType, ch byte) tk.Token {
+	return tk.Token{Type: tokenType, Literal: string(ch)}
 }
 
 // Function to return a new token from a byte array
-func newTokenString(tokenType token.TokenType, s string) token.Token {
-	return token.Token{Type: tokenType, Literal: s}
+func newTokenString(tokenType tk.TokenType, s string) tk.Token {
+	return tk.Token{Type: tokenType, Literal: s}
 }
 
 ///////////////
@@ -99,97 +99,100 @@ func newTokenString(tokenType token.TokenType, s string) token.Token {
 ///////////////
 
 // Returns next token in input stream
-func (l *Lexer) NextToken() token.Token {
-	var tok token.Token
+func (l *Lexer) NextToken() tk.Token {
+	var tok tk.Token
 
 	l.eatWhitespace()
 
 	switch l.ch {
 	case '+':
-		tok = newToken(token.PLUS, l.ch)
+		tok = newToken(tk.PLUS, l.ch)
 
 	case '-':
-		tok = newToken(token.MINUS, l.ch)
+		tok = newToken(tk.MINUS, l.ch)
 
 	case '*':
-		tok = newToken(token.ASTRICK, l.ch)
+		tok = newToken(tk.ASTRICK, l.ch)
 
 		if l.peekChar() == '*' {
 			s := l.readString(2)
-			tok = newTokenString(token.DASTRICK, s)
+			tok = newTokenString(tk.DASTRICK, s)
 		}
 
 	case '/':
-		tok = newToken(token.SLASH, l.ch)
+		tok = newToken(tk.SLASH, l.ch)
+
+	case '%':
+		tok = newToken(tk.MOD, l.ch)
 
 	case '=':
-		tok = newToken(token.ASSIGN, l.ch)
+		tok = newToken(tk.ASSIGN, l.ch)
 
 		if l.peekChar() == '=' {
 			s := l.readString(2)
-			tok = newTokenString(token.EQ, s)
+			tok = newTokenString(tk.EQ, s)
 		}
 
 	case '!':
-		tok = newToken(token.BANG, l.ch)
+		tok = newToken(tk.BANG, l.ch)
 
 		if l.peekChar() == '=' {
 			s := l.readString(2)
-			tok = newTokenString(token.NOTEQ, s)
+			tok = newTokenString(tk.NOTEQ, s)
 		}
 
 	case '<':
-		tok = newToken(token.LT, l.ch)
+		tok = newToken(tk.LT, l.ch)
 
 		if l.peekChar() == '=' {
 			s := l.readString(2)
-			tok = newTokenString(token.LTEQ, s)
+			tok = newTokenString(tk.LTEQ, s)
 		}
 
 	case '>':
-		tok = newToken(token.GT, l.ch)
+		tok = newToken(tk.GT, l.ch)
 
 		if l.peekChar() == '=' {
 			s := l.readString(2)
-			tok = newTokenString(token.GTEQ, s)
+			tok = newTokenString(tk.GTEQ, s)
 		}
 
 	case '(':
-		tok = newToken(token.LPAREN, l.ch)
+		tok = newToken(tk.LPAREN, l.ch)
 
 	case ')':
-		tok = newToken(token.RPAREN, l.ch)
+		tok = newToken(tk.RPAREN, l.ch)
 
 	case '{':
-		tok = newToken(token.LBRACE, l.ch)
+		tok = newToken(tk.LBRACE, l.ch)
 
 	case '}':
-		tok = newToken(token.RBRACE, l.ch)
+		tok = newToken(tk.RBRACE, l.ch)
 
 	case ',':
-		tok = newToken(token.COMMA, l.ch)
+		tok = newToken(tk.COMMA, l.ch)
 
 	case ';':
-		tok = newToken(token.SEMICOLON, l.ch)
+		tok = newToken(tk.SEMICOLON, l.ch)
 
 	case 0:
-		tok = newTokenString(token.EOF, "")
+		tok = newTokenString(tk.EOF, "")
 
 	default:
 		if isLetter(l.ch) {
 			s := l.readIdentifier()
-			t := token.LookupIdent(s)
+			t := tk.LookupIdent(s)
 			tok := newTokenString(t, s)
 			return tok
 		}
 
 		if isDigit(l.ch) {
 			n := l.readNumber()
-			tok := newTokenString(token.INT, n)
+			tok := newTokenString(tk.INT, n)
 			return tok
 		}
 
-		tok = newToken(token.ILLEGAL, l.ch)
+		tok = newToken(tk.ILLEGAL, l.ch)
 	}
 
 	l.readChar()
